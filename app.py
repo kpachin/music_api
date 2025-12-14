@@ -7,7 +7,7 @@ app = Flask(__name__)
 CORS(app)
 
 # Load trained ML model
-model = joblib.load("model.pkl")
+model = joblib.load("music_recommender.pkl")
 
 # 🎵 Genre → Real Songs Mapping
 GENRE_TO_SONGS = {
