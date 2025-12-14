@@ -1,64 +1,61 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Music Recommendation System</title>
+  <title>Music Recommendation System</title>
 </head>
 <body>
 
-<h1>Music Recommendation System</h1>
+  <h1>Music Recommendation System</h1>
 
-<label>Age:</label><br>
-<input type="number" id="age" value="19"><br><br>
+  <label>Age:</label><br>
+  <input id="age" type="number" value="19"><br><br>
 
-<label>Gender:</label><br>
-<select id="gender">
-    <option value="1">Male</option>
-    <option value="0">Female</option>
-</select><br><br>
+  <label>Gender:</label><br>
+  <select id="gender">
+    <option value="0">Male</option>
+    <option value="1">Female</option>
+  </select><br><br>
 
-<label>Location:</label><br>
-<input type="number" id="location" value="8"><br><br>
+  <label>Location:</label><br>
+  <input id="location" type="number" value="8"><br><br>
 
-<button onclick="getRecommendation()">Get Recommendation</button>
+  <!-- IMPORTANT: type="button" -->
+  <button type="button" onclick="getRecommendation()">
+    Get Recommendation
+  </button>
 
-<h2 id="genre"></h2>
-<ul id="songs"></ul>
+  <p id="result" style="font-weight: bold; margin-top: 20px;"></p>
 
-<script>
-function getRecommendation() {
-    const age = document.getElementById("age").value;
-    const gender = document.getElementById("gender").value;
-    const location = document.getElementById("location").value;
+  <script>
+    async function getRecommendation() {
+      document.getElementById("result").innerText = "Loading...";
 
-    fetch("https://kpachin.github.io/music_api/", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
+      let age = Number(document.getElementById("age").value);
+      let gender = Number(document.getElementById("gender").value);
+      let location = Number(document.getElementById("location").value);
+
+      let response = await fetch(
+        "https://music-api-ozqi.onrender.com/predict",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
             features: [age, gender, location]
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        document.getElementById("genre").innerText =
-            "Recommended Genre: " + data.recommended_genre;
+          })
+        }
+      );
 
-        const songList = document.getElementById("songs");
-        songList.innerHTML = "";
+      let data = await response.json();
 
-        data.songs.forEach(song => {
-            const li = document.createElement("li");
-            li.innerText = song;
-            songList.appendChild(li);
-        });
-    })
-    .catch(error => {
-        alert("Error connecting to API");
-        console.error(error);
-    });
-}
-</script>
+      if (data.recommended_genre) {
+        document.getElementById("result").innerText =
+          "Recommended Genre: " + data.recommended_genre;
+      } else {
+        document.getElementById("result").innerText =
+          "Error: " + data.error;
+      }
+    }
+  </script>
 
 </body>
 </html>
