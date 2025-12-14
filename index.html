@@ -30,7 +30,7 @@ function getRecommendation() {
     const gender = document.getElementById("gender").value;
     const location = document.getElementById("location").value;
 
-    fetch(" https://kpachin.github.io/music_api/", {
+    fetch(" https://music-api-ozqi.onrender.com/predict", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
