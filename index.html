@@ -22,7 +22,7 @@
 <button onclick="getRecommendation()">Get Recommendation</button>
 
 <h2 id="genre"></h2>
-<ul id="songs"></ul>
+<ul id="songList"></ul>
 
 <script>
 function getRecommendation() {
@@ -30,35 +30,38 @@ function getRecommendation() {
     const gender = document.getElementById("gender").value;
     const location = document.getElementById("location").value;
 
-    fetch(" https://music-api-ozqi.onrender.com/predict", {
+    fetch("https://kpachin.github.io/music_api/", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            features: [age, gender, location]
+            features: [age, gender === "Male" ? 1 : 0, location]
         })
     })
-    .then(response => response.json())
+    .then(res => res.json())
     .then(data => {
         document.getElementById("genre").innerText =
             "Recommended Genre: " + data.recommended_genre;
 
-        const songList = document.getElementById("songs");
+        const songList = document.getElementById("songList");
         songList.innerHTML = "";
 
         data.songs.forEach(song => {
             const li = document.createElement("li");
-            li.innerText = song;
+
+            const link = document.createElement("a");
+            link.href = `https://www.youtube.com/results?search_query=${encodeURIComponent(song)}`;
+            link.target = "_blank";
+            link.innerText = song;
+
+            li.appendChild(link);
             songList.appendChild(li);
         });
     })
-    .catch(error => {
+    .catch(err => {
         alert("Error connecting to API");
-        console.error(error);
+        console.error(err);
     });
 }
 </script>
-
-</body>
-</html>
