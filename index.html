@@ -63,8 +63,13 @@ function playSong(songName) {
     const player = document.getElementById("youtubePlayer");
     const query = encodeURIComponent(songName);
 
-    // Play inside the page using YouTube search embed
-    player.src = `https://www.youtube.com/embed?listType=search&list=${query}`;
+    const origin = window.location.origin;
+
+    player.src =
+        `https://www.youtube-nocookie.com/embed?` +
+        `listType=search&list=${query}` +
+        `&autoplay=1&origin=${origin}`;
+
     player.style.display = "block";
 }
 
