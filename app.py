@@ -9,83 +9,83 @@ CORS(app)
 # Load trained ML model
 model = joblib.load("music_recommender.pkl")
 
-# 🎵 Genre → Songs WITH YouTube Video IDs
+# 🎵 Genre → Songs with YouTube IDs
 GENRE_TO_SONGS = {
 
     "Reggae": [
-        {"title": "Bob Marley – Three Little Birds", "video_id": "zaGUr6wzyT8"},
-        {"title": "Chronixx – Skankin' Sweet", "video_id": "FjQ7JxJ5q8k"},
-        {"title": "Protoje – Who Knows", "video_id": "KUbis_Zq8sM"}
+        {"title": "Bob Marley – Three Little Birds", "youtube_id": "LanCLS_hIo4"},
+        {"title": "Chronixx – Skankin' Sweet", "youtube_id": "g0QYw4FhD2k"},
+        {"title": "Protoje – Who Knows", "youtube_id": "C3k8hZsZ9nE"}
     ],
 
     "Afrobeat": [
-        {"title": "Burna Boy – Last Last", "video_id": "ZCxz-XwGZ5A"},
-        {"title": "Wizkid – Essence", "video_id": "t_JnJdB8Hew"},
-        {"title": "Davido – If", "video_id": "bJ7pMsoDn9o"}
+        {"title": "Burna Boy – Last Last", "youtube_id": "421w1j87fEM"},
+        {"title": "Wizkid – Essence", "youtube_id": "7a5Vt0U2L8E"},
+        {"title": "Davido – If", "youtube_id": "iWQ5H8m8n5c"}
     ],
 
     "Hip-hop": [
-        {"title": "Drake – God's Plan", "video_id": "xpVfcZ0ZcFM"},
-        {"title": "Kendrick Lamar – HUMBLE", "video_id": "tvTRZJ-4EyI"},
-        {"title": "Sarkodie – Adonai", "video_id": "RyK0G8eZz8Y"}
+        {"title": "Drake – God's Plan", "youtube_id": "xpVfcZ0ZcFM"},
+        {"title": "Kendrick Lamar – HUMBLE.", "youtube_id": "tvTRZJ-4EyI"},
+        {"title": "Sarkodie – Adonai", "youtube_id": "2lD8VwY1KFE"}
     ],
 
     "Jazz": [
-        {"title": "Miles Davis – So What", "video_id": "zqNTltOGh5c"},
-        {"title": "John Coltrane – My Favorite Things", "video_id": "UlFNy9iWrpE"},
-        {"title": "Herbie Hancock – Cantaloupe Island", "video_id": "8B1oIXGX0Io"}
+        {"title": "Miles Davis – So What", "youtube_id": "zqNTltOGh5c"},
+        {"title": "John Coltrane – My Favorite Things", "youtube_id": "qWG2dsXV5HI"},
+        {"title": "Herbie Hancock – Cantaloupe Island", "youtube_id": "8B1oIXGX0Io"}
     ],
 
     "Dancehall": [
-        {"title": "Vybz Kartel – Fever", "video_id": "Z6kN2zB5y8c"},
-        {"title": "Popcaan – Party Shot", "video_id": "0mP4h9uVJ_Y"},
-        {"title": "Alkaline – Ocean Wave", "video_id": "w9t9fW6ZzJ8"}
+        {"title": "Vybz Kartel – Fever", "youtube_id": "P6IOVgC-IUg"},
+        {"title": "Popcaan – Party Shot", "youtube_id": "QG1J9Z6a3YA"},
+        {"title": "Alkaline – Ocean Wave", "youtube_id": "7q4tQZL9uYc"}
     ],
 
     "Amapiano": [
-        {"title": "Kabza De Small – Scorpion Kings", "video_id": "y8c9ZzKxG6Q"},
-        {"title": "Focalistic – Ke Star", "video_id": "oN4xk0rY8R4"},
-        {"title": "Asake – Terminator", "video_id": "s6A8v6lQmOQ"}
+        {"title": "Kabza De Small – Scorpion Kings", "youtube_id": "cFfE9j6L7W4"},
+        {"title": "Focalistic – Ke Star", "youtube_id": "8ZKZL9u0h8M"},
+        {"title": "Asake – Terminator", "youtube_id": "a0xJ0Qp0p1Q"}
     ],
 
     "R&B": [
-        {"title": "Chris Brown – Under The Influence", "video_id": "nM8j7nK1x9M"},
-        {"title": "SZA – Snooze", "video_id": "Y8x9Zr6xG3I"},
-        {"title": "Usher – Confessions", "video_id": "tIY3x8k5nP8"}
+        {"title": "Chris Brown – Under The Influence", "youtube_id": "V3kJQ1JjF5Q"},
+        {"title": "SZA – Snooze", "youtube_id": "L0CzK2X5kYo"},
+        {"title": "Usher – Confessions", "youtube_id": "5Sy19X0xxrM"}
     ],
 
     "Highlife": [
-        {"title": "E.T. Mensah – All For You", "video_id": "Z8c2B3x5JmY"},
-        {"title": "Daddy Lumba – Theresa", "video_id": "s7Tn5YB1Z8M"},
-        {"title": "Pat Thomas – Sika Ye Mogya", "video_id": "m2R8Z7G6kTQ"}
+        {"title": "E.T. Mensah – All For You", "youtube_id": "4gGkPzN1ZgE"},
+        {"title": "Daddy Lumba – Theresa", "youtube_id": "Rj5T3n3j3P4"},
+        {"title": "Pat Thomas – Sika Ye Mogya", "youtube_id": "k9LQz7mF2xM"}
     ],
 
     "Pop": [
-        {"title": "Taylor Swift – Shake It Off", "video_id": "nfWlot6h_JM"},
-        {"title": "Ed Sheeran – Shape of You", "video_id": "JGwWNGJdvx8"},
-        {"title": "Dua Lipa – Levitating", "video_id": "TUVcZfQe-Kw"}
+        {"title": "Taylor Swift – Shake It Off", "youtube_id": "nfWlot6h_JM"},
+        {"title": "Ed Sheeran – Shape of You", "youtube_id": "JGwWNGJdvx8"},
+        {"title": "Dua Lipa – Levitating", "youtube_id": "TUVcZfQe-Kw"}
     ],
 
     "Gospel": [
-        {"title": "Joe Mettle – Bo Noo Ni", "video_id": "N7T5b7oR9Zk"},
-        {"title": "Nathaniel Bassey – Imela", "video_id": "qv7c3Zp9G7M"},
-        {"title": "Sinach – Way Maker", "video_id": "iJCV_2H9xD0"}
+        {"title": "Joe Mettle – Bo Noo Ni", "youtube_id": "k3F5KZy8z4I"},
+        {"title": "Nathaniel Bassey – Imela", "youtube_id": "Rz9p6nXJz5E"},
+        {"title": "Sinach – Way Maker", "youtube_id": "iJCV_2H9xD0"}
     ]
 }
-
 
 @app.route("/predict", methods=["POST"])
 def predict_genre():
     try:
         data = request.get_json()
-        features = np.array(data["features"]).reshape(1, -1)
 
+        features = np.array(data["features"]).reshape(1, -1)
         prediction = model.predict(features)
+
         genre = str(prediction[0])
 
         songs = GENRE_TO_SONGS.get(
             genre,
-            ["No songs available for this genre"]
+            [{"title": "No songs available", "youtube_id": ""}]
         )
 
         return jsonify({
@@ -96,3 +96,11 @@ def predict_genre():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+
+@app.route("/", methods=["GET"])
+def home():
+    return "🎵 Music Recommendation API is running!"
+
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=10000)

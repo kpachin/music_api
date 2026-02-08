@@ -1,44 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
     <title>Music Recommendation System</title>
-
-    <!-- Mobile support -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <style>
         body {
             font-family: Arial, sans-serif;
-            padding: 20px;
         }
-
-        button {
-            padding: 8px 14px;
-            margin-top: 5px;
-            cursor: pointer;
-        }
-
         iframe {
-            margin-top: 20px;
+            margin-top: 10px;
             border-radius: 10px;
-            width: 100%;
-            height: 260px;
-        }
-
-        ul {
-            list-style: none;
-            padding-left: 0;
-        }
-
-        li {
-            margin-bottom: 8px;
         }
     </style>
 </head>
 <body>
 
-<h1>Music Recommendation System</h1>
+<h1>🎵 Music Recommendation System</h1>
 
 <label>Age:</label><br>
 <input type="number" id="age" value="19"><br><br>
@@ -52,30 +28,68 @@
 <label>Location:</label><br>
 <input type="number" id="location" value="8"><br><br>
 
-<button type="button" onclick="getRecommendation()">
-    Get Recommendation
-</button>
+<button onclick="getRecommendation()">Get Recommendation</button>
 
 <h2 id="genre"></h2>
-<ul id="songList"></ul>
-
-<!-- 🎵 Embedded YouTube Player -->
-<iframe
-    id="youtubePlayer"
-    style="display:none;"
-    frameborder="0"
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-    allowfullscreen>
-</iframe>
+<div id="songList"></div>
 
 <script>
-function playSong(videoId) {
-    const player = document.getElementById("youtubePlayer");
+function getRecommendation() {
+    const age = document.getElementById("age").value;
+    const gender = document.getElementById("gender").value;
+    const location = document.getElementById("location").value;
 
-    player.src =
-        `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0`;
+    fetch("https://music-api-ozqi.onrender.com/predict", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            features: [age, Number(gender), location]
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById("genre").innerText =
+            "🎧 Recommended Genre: " + data.recommended_genre;
 
-    player.style.display = "block";
+        const songList = document.getElementById("songList");
+        songList.innerHTML = "";
+
+        data.songs.forEach(song => {
+            /*
+              song should be:
+              {
+                title: "Song name",
+                youtube_id: "VIDEO_ID"
+              }
+            */
+
+            const container = document.createElement("div");
+
+            const title = document.createElement("p");
+            title.innerText = song.title;
+            title.style.fontWeight = "bold";
+
+            const iframe = document.createElement("iframe");
+            iframe.width = "300";
+            iframe.height = "170";
+            iframe.src = `https://www.youtube.com/embed/${song.youtube_id}`;
+            iframe.allow =
+                "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+            iframe.allowFullscreen = true;
+
+            container.appendChild(title);
+            container.appendChild(iframe);
+            songList.appendChild(container);
+        });
+    })
+    .catch(err => {
+        alert("Error connecting to API");
+        console.error(err);
+    });
 }
+</script>
 
-funct
+</body>
+</html>
