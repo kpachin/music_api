@@ -83,7 +83,10 @@ def predict_genre():
         prediction = model.predict(features)
         genre = str(prediction[0])
 
-        songs = GENRE_TO_SONGS.get(genre, [])
+        songs = GENRE_TO_SONGS.get(
+            genre,
+            ["No songs available for this genre"]
+        )
 
         return jsonify({
             "recommended_genre": genre,
@@ -93,11 +96,3 @@ def predict_genre():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-
-@app.route("/", methods=["GET"])
-def home():
-    return "Music Recommendation API is running!"
-
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=10000)
